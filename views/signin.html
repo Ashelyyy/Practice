@@ -42,5 +42,16 @@
         
     </script>
 </body>
+<script type="text/javascript">
+    $('#signin_form').submit(function (e) {
+        e.preventDefault();
+        const formData = $(this).serialize();
+        console.log(formData);
+        // 发送请求
+        $.post('/handleForm', formData, (data) => {
+            console.log(data);
+        })
+    })
+</script>
 
 </html>

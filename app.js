@@ -1,11 +1,12 @@
 // 1. 导包
 const express = require('express');
 const router = require('./router');
+const bodyParser = require('body-parser');
 
 // 2.配置包
 const app = express();
 app.engine('html', require('express-art-template'));
-
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // 统一处理静态页面
 app.use('/public', express.static('./public'));
