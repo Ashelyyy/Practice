@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../tools/db_config.js');
-const mysql = require('mysql');
+const M_user = require('../models/m_user');
+
 
 
 // 1.函数处理,导出函数处理模块
@@ -14,11 +15,10 @@ exports.handleForm = (req, res) => {
 
 	// 获取表单数据
 	const body = req.body;
-	console.log(body);
+	// console.log(body);
 
 	// 查询数据库
-	const sqlstr = 'SELECT * FROM `users` WHERE `email`=?';
-	db.query(sqlstr, body.email, (err, results) => {
+	M_user.checkForm(body.email, (err, results) => {
 		if(err) {
 			return res.send({
 				code: 500,
@@ -26,11 +26,11 @@ exports.handleForm = (req, res) => {
 			})
 		}
 
-		// 如果邮箱为空
+		// 如果邮箱为空或者不存在
 		if(!results[0]) {
 			return res.send({
 				code: 1,
-				message: '请输入邮箱'
+				message: '邮箱不存在'
 			})
 		}
 
@@ -47,10 +47,6 @@ exports.handleForm = (req, res) => {
 			code: 200,
 			message: '输入正确,跳转到列表页面'
 		})
-
 	})
-
-	// 验证邮箱
-	// 邮箱不存在
 	
 }
